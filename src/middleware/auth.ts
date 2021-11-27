@@ -54,7 +54,7 @@ export default (req: Request & { userId: string, projectId?: string, userLogin: 
             return res.status(401).json({message: 'Authorization error'})
         }
 
-        if ((decryptedToken.tokenDate - Date.now()) / (1000 * 3600) > 6) {
+        if ((Date.now() - decryptedToken.tokenDate) / (1000 * 3600) > 6) {
             return res.status(401).json({message: 'Authorization error'})
         }
 
