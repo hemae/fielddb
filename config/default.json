@@ -1,0 +1,9 @@
+{
+  "port": 5000,
+  "baseUrl": "http://localhost:5000",
+  "fileSecret": "Fuck my brain :}",
+  "jwtSecret": "{All I want is a little of a good wife]",
+  "usersDataPath": "src/database/users.dat",
+  "projectsDataPath": "src/database/projects/projects.dat",
+  "projectsPath": "src/database/projects"
+}

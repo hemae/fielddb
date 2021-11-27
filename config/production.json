@@ -1,0 +1,9 @@
+{
+  "port": 80,
+  "baseUrl": "http://workcard.fun",
+  "fileSecret": "Fuck my brain :}",
+  "jwtSecret": "{All I want is a little of a good wife]",
+  "usersDataPath": "src/database/users.dat",
+  "projectsDataPath": "src/database/projects/projects.dat",
+  "projectsPath": "src/database/projects"
+}

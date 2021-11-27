@@ -1,0 +1,38 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production ts-node src/index.ts",
+    "server": "nodemon src/index.ts",
+    "client": "npm run start --prefix client",
+    "client:install": "npm install --prefix client",
+    "client:build": "npm run build --prefix client",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "Hans Andersen <hemae2468@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/concurrently": "^6.3.0",
+    "@types/config": "^0.0.40",
+    "@types/express": "^4.17.13",
+    "@types/nodemon": "^1.19.1",
+    "@types/pino": "^6.3.12",
+    "@types/pino-pretty": "^4.7.1",
+    "@types/rimraf": "^3.0.2",
+    "concurrently": "^6.3.0",
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.14",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "config": "^3.3.6",
+    "dayjs": "^1.10.7",
+    "express": "^4.17.1",
+    "pino": "^7.0.5",
+    "pino-pretty": "^7.1.0",
+    "rimraf": "^3.0.2"
+  }
+}
