@@ -1,4 +1,4 @@
-import crypt from '../../modules/crypt/ctypt'
+import crypt from 'hans-cryptor'
 import config from 'config'
 
 

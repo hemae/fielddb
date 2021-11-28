@@ -31,6 +31,7 @@
     "config": "^3.3.6",
     "dayjs": "^1.10.7",
     "express": "^4.17.1",
+    "hans-cryptor": "^1.0.1",
     "pino": "^7.0.5",
     "pino-pretty": "^7.1.0",
     "rimraf": "^3.0.2"
