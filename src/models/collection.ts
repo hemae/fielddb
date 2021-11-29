@@ -23,6 +23,7 @@ const collection = {
         return collections.map(collection => collection.collectionName)
     },
 
+    // mutable (project file size, collections count, items count)
     deleteCollection(collectionName: string, projectId: string): void {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
         let collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
@@ -30,6 +31,7 @@ const collection = {
         setProjectUpdate(projectId)
     },
 
+    // mutable (project file size, items count)
     save(collectionName: string, projectId: string, item: object): void {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
         let collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
@@ -86,6 +88,7 @@ const collection = {
         return collection.items.find(item => areFieldsEquals<object>({item, filter})) || null
     },
 
+    // mutable (project file size)
     findByIdAndUpdate(collectionName: string, projectId: string, itemId: string, update: object): object | null {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
         const collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
@@ -113,6 +116,7 @@ const collection = {
         return updateItem<object>({item, update})
     },
 
+    // mutable (project file size, items count)
     findByIdAndDelete(collectionName: string, projectId: string, itemId: string): void {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
         const collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
