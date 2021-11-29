@@ -23,33 +23,33 @@ class Model {
     }
 
     save(dataFilePath: string, boundFolderPath?: string): void {
-        const {items} = decryptTextFileAndParse(dataFilePath)
+        const items = decryptTextFileAndParse<any>(dataFilePath)
         items.push(this)
         encryptObjectAndWriteTextFile(items, dataFilePath)
         if (boundFolderPath) {
-            encryptObjectAndWriteTextFile([], boundFolderPath + `/${this._id}.dat`, 'collections')
+            encryptObjectAndWriteTextFile([], boundFolderPath + `/${this._id}.dat`)
         }
     }
 
     static findById(id: string, dataFilePath: string): any | null {
-        const {items} = decryptTextFileAndParse(dataFilePath) as { items: any[] }
+        const items = decryptTextFileAndParse<any>(dataFilePath)
         return items.find(item => item._id === id) || null
     }
 
     static find(filter: any, dataFilePath: string): any[] {
-        const {items} = decryptTextFileAndParse(dataFilePath) as { items: any[] }
+        const items = decryptTextFileAndParse(dataFilePath)
         return !filter
             ? items
             : items.filter(item => areFieldsEquals<any>({item, filter}))
     }
 
     static findOne(filter: any, dataFilePath: string): any | null {
-        const {items} = decryptTextFileAndParse(dataFilePath) as { items: any[] }
+        const items = decryptTextFileAndParse(dataFilePath)
         return items.find(item => areFieldsEquals<any>({item, filter})) || null
     }
 
     static findByIdAndUpdate(id: string, update: any, dataFilePath: string): any | null {
-        const {items} = decryptTextFileAndParse(dataFilePath) as { items: any[] }
+        const items = decryptTextFileAndParse<any>(dataFilePath)
         const item = items.find(item => item._id === id)
         if (!item) {
             return null
@@ -63,7 +63,7 @@ class Model {
     }
 
     static findByIdAndDelete(id: string, dataFilePath: string, boundFolderPath?: string): void {
-        const {items} = decryptTextFileAndParse(dataFilePath) as { items: any[] }
+        const items = decryptTextFileAndParse<any>(dataFilePath)
         encryptObjectAndWriteTextFile(items.filter(item => item._id !== id), dataFilePath)
         if (boundFolderPath) {
             rimraf.sync(boundFolderPath + `/${id}.dat`)

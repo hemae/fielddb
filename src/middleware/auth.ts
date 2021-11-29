@@ -20,6 +20,7 @@ export default (req: Request & { userId: string, projectId?: string, userLogin: 
         }
 
         if (!token) {
+            log.error(`Someone tried to sign in from back-server without token`)
             return res.status(401).json({message: 'Authorization error'})
         }
 
@@ -28,6 +29,7 @@ export default (req: Request & { userId: string, projectId?: string, userLogin: 
         if (tokenData) {
             const user = User.findOne({login: tokenData.login})
             if (!user) {
+                log.error(`Someone tried to sign in from back-server who not registered`)
                 return res.status(401).json({message: 'Authorization error'})
             }
 
@@ -38,6 +40,7 @@ export default (req: Request & { userId: string, projectId?: string, userLogin: 
 
             const project = Project.findById(tokenData.projectId)
             if (!project || project.ownerId !== user._id) {
+                log.error(`${user.login} (${user._id}) tried to sign in from back-server with invalid project id`)
                 return res.status(401).json({message: 'Authorization error'})
             }
 
@@ -51,6 +54,7 @@ export default (req: Request & { userId: string, projectId?: string, userLogin: 
 
         const user = User.findById(decryptedToken.userId)
         if (!user) {
+            log.error(`Someone tried to sign in from client who not registered`)
             return res.status(401).json({message: 'Authorization error'})
         }
 

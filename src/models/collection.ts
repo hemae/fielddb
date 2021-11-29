@@ -6,8 +6,8 @@ import Project from './Project'
 
 function setProjectUpdate(projectId: string) {
     const allProjectsDataPath: string = config.get('projectsDataPath')
-    const {items} = decryptTextFileAndParse(allProjectsDataPath) as { items: Project[] }
-    encryptObjectAndWriteTextFile(items.map(item => item._id === projectId ? {...item, _updatingDate: Date.now()} : item), allProjectsDataPath)
+    const projects = decryptTextFileAndParse<Project>(allProjectsDataPath)
+    encryptObjectAndWriteTextFile(projects.map(project => project._id === projectId ? {...project, _updatingDate: Date.now()} : project), allProjectsDataPath)
 }
 
 type CollectionType = {
@@ -19,20 +19,20 @@ const collection = {
 
     getCollectionNames(projectId: string): Array<string> {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
-        let {collections} = decryptTextFileAndParse(projectDataPath) as { collections: CollectionType[] }
+        let collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
         return collections.map(collection => collection.collectionName)
     },
 
     deleteCollection(collectionName: string, projectId: string): void {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
-        let {collections} = decryptTextFileAndParse(projectDataPath) as { collections: CollectionType[] }
-        encryptObjectAndWriteTextFile(collections.filter(collection => collection.collectionName !== collectionName), projectDataPath, 'collections')
+        let collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
+        encryptObjectAndWriteTextFile(collections.filter(collection => collection.collectionName !== collectionName), projectDataPath)
         setProjectUpdate(projectId)
     },
 
     save(collectionName: string, projectId: string, item: object): void {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
-        let {collections} = decryptTextFileAndParse(projectDataPath) as { collections: CollectionType[] }
+        let collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
         const collection: CollectionType | undefined = collections.find(collection => collection.collectionName === collectionName)
         if (!collection) {
             const newCollection: CollectionType = {
@@ -50,13 +50,13 @@ const collection = {
                     : collection
             )
         }
-        encryptObjectAndWriteTextFile(collections, projectDataPath, 'collections')
+        encryptObjectAndWriteTextFile(collections, projectDataPath)
         setProjectUpdate(projectId)
     },
 
     findById(collectionName: string, projectId: string, itemId: string): object | null {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
-        const {collections} = decryptTextFileAndParse(projectDataPath) as { collections: CollectionType[] }
+        const collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
         const collection: CollectionType | undefined = collections.find(collection => collection.collectionName === collectionName)
         if (!collection) {
             return null
@@ -66,7 +66,7 @@ const collection = {
 
     find(collectionName: string, projectId: string, filter?: object ): object[] {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
-        const {collections} = decryptTextFileAndParse(projectDataPath) as { collections: CollectionType[] }
+        const collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
         const collection: CollectionType | undefined = collections.find(collection => collection.collectionName === collectionName)
         if (!collection) {
             return []
@@ -78,7 +78,7 @@ const collection = {
 
     findOne(collectionName: string, projectId: string, filter: object ): object | null {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
-        const {collections} = decryptTextFileAndParse(projectDataPath) as { collections: CollectionType[] }
+        const collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
         const collection: CollectionType | undefined = collections.find(collection => collection.collectionName === collectionName)
         if (!collection) {
             return null
@@ -88,7 +88,7 @@ const collection = {
 
     findByIdAndUpdate(collectionName: string, projectId: string, itemId: string, update: object): object | null {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
-        const {collections} = decryptTextFileAndParse(projectDataPath) as { collections: CollectionType[] }
+        const collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
         const collection: CollectionType | undefined = collections.find(collection => collection.collectionName === collectionName)
         if (!collection) {
             return null
@@ -108,14 +108,14 @@ const collection = {
                     )
                 }
                 : collection
-        ), projectDataPath, 'collections')
+        ), projectDataPath)
         setProjectUpdate(projectId)
         return updateItem<object>({item, update})
     },
 
     findByIdAndDelete(collectionName: string, projectId: string, itemId: string): void {
         const projectDataPath = config.get('projectsPath') + `/${projectId}.dat`
-        const {collections} = decryptTextFileAndParse(projectDataPath) as { collections: CollectionType[] }
+        const collections = decryptTextFileAndParse<CollectionType>(projectDataPath)
         encryptObjectAndWriteTextFile(collections.map(
             collection => collection.collectionName === collectionName
                 ? {
@@ -123,7 +123,7 @@ const collection = {
                     items: collection.items.filter(item => item._id !== itemId)
                 }
                 : collection
-        ), projectDataPath, 'collections')
+        ), projectDataPath)
         setProjectUpdate(projectId)
     }
 

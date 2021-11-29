@@ -1,15 +1,18 @@
-import {readFileSync, writeFileSync} from 'fs'
-import crypt from 'hans-cryptor'
+import fileCrypt from 'hans-files-cryptor'
 import config from 'config'
 
 
-export function decryptTextFileAndParse(filePath: string) {
-    return JSON.parse(
-        crypt.decrypt(
-            readFileSync(filePath, 'utf8'), config.get('fileSecret')
-        ))
+export function decryptTextFileAndParse<ItemType>(filePath: string): ItemType[] {
+    try {
+        const object = fileCrypt.decryptTextFileAndParse<{items: ItemType[]}>(filePath, config.get('fileSecret'))
+        return object.items
+    } catch {
+
+        fileCrypt.encryptObjectAndWriteTextFile({items: []}, filePath, config.get('fileSecret'))
+        return []
+    }
 }
 
-export function encryptObjectAndWriteTextFile(obj: Object, filePath: string, objectName?: string): void {
-    writeFileSync(filePath, crypt.encrypt(JSON.stringify({[`${objectName || 'items'}`]: obj}), config.get('fileSecret')), 'utf8')
+export function encryptObjectAndWriteTextFile(items: any[], filePath: string): void {
+    fileCrypt.encryptObjectAndWriteTextFile({items}, filePath, config.get('fileSecret'))
 }
