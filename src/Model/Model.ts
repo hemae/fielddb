@@ -1,7 +1,7 @@
 import rimraf from 'rimraf'
 import {decryptTextFileAndParse, encryptObjectAndWriteTextFile} from '../tools/fileCryptor/FileCryptor'
 import {areFieldsEquals, updateItem} from './handlers'
-import generateId from '../tools/idGenerator/idGenerator'
+import generateId from 'hans-id'
 
 
 export type ModelType = {

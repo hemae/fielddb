@@ -2,7 +2,7 @@ import {Router, Request, Response, IRouter} from 'express'
 import auth from '../middleware/auth'
 import collection from '../models/collection'
 import log from '../tools/logger'
-import generateId from '../tools/idGenerator/idGenerator'
+import generateId from '../tools/idGenerator/src'
 import authPart from '../middleware/authPart'
 import Project from '../models/Project'
 
