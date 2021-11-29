@@ -3,3 +3,5 @@ node_modules
 .idea
 /src/database
 src/database
+/config
+config
